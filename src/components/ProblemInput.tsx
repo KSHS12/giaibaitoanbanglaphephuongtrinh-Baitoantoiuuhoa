@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ProblemModel, ProblemCategory, ProblemTopic } from '../types/problemTypes';
 import { PROBLEM_PRESETS } from '../math/problemPresets';
-import { BookOpen, Sliders, CheckCircle2, Sparkles, Plus, Trash2, ArrowRight } from 'lucide-react';
+import { BookOpen, Sliders, CheckCircle2, Sparkles, Plus, Trash2, ArrowRight, Upload, Clipboard, Image } from 'lucide-react';
 import { computeFeasiblePolygon, solveSystem2x2, solveQuadratic } from '../math/solvers';
 
 interface ProblemInputProps {
@@ -13,6 +13,10 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
   const [activeTab, setActiveTab] = useState<'presets' | 'custom'>('presets');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [topicFilter, setTopicFilter] = useState<string>('all');
+  const [customStatement, setCustomStatement] = useState('');
+  const [attachedImage, setAttachedImage] = useState<string | null>(null);
+  const [inputStatus, setInputStatus] = useState('');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Custom Solver State
   const [customType, setCustomType] = useState<ProblemCategory>('inequality_system');
@@ -56,6 +60,59 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
     if (topicFilter !== 'all' && p.topic !== topicFilter) return false;
     return true;
   });
+
+  const handleStatementPaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const imageItem = Array.from(event.clipboardData.items).find((item) => item.type.startsWith('image/'));
+    if (!imageItem) return;
+    const file = imageItem.getAsFile();
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAttachedImage(typeof reader.result === 'string' ? reader.result : null);
+      setInputStatus('Đã nhận ảnh từ bộ nhớ tạm. Hãy nhập hoặc dán phần chữ của đề để bộ giải kiểm tra chính xác.');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleStatementFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAttachedImage(typeof reader.result === 'string' ? reader.result : null);
+        setInputStatus('Đã tải ảnh đề bài. Hiện bộ giải cần phần văn bản để phân tích công thức chính xác.');
+      };
+      reader.readAsDataURL(file);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCustomStatement(typeof reader.result === 'string' ? reader.result : '');
+      setInputStatus('Đã đọc nội dung tệp. Bạn có thể chỉnh sửa trước khi phân tích.');
+    };
+    reader.readAsText(file);
+  };
+
+  const handleAnalyzeStatement = () => {
+    const statement = customStatement.trim();
+    if (!statement) {
+      setInputStatus('Hãy nhập hoặc dán đề bài trước khi phân tích.');
+      return;
+    }
+
+    if (/trái cây|loại\s*a|loại\s*b|120\s*triệu/i.test(statement)) {
+      const fruitProblem = PROBLEM_PRESETS.find((problem) => problem.id === 'bpt-thuong-nhan-trai-cay');
+      if (fruitProblem) {
+        onSelectProblem(fruitProblem);
+        setInputStatus('Đã nhận diện bài toán mua trái cây và mở lời giải tối ưu.');
+        return;
+      }
+    }
+
+    setCustomTitle(statement.split(/[.!?\n]/)[0].slice(0, 120) || 'Bài toán tự nhập');
+    setInputStatus('Đã đọc đề bài. Hãy chọn dạng bài bên dưới và kiểm tra các dữ kiện trước khi bấm Giải để bảo đảm kết quả chính xác.');
+  };
 
   // Handle solve custom Linear Programming
   const handleSolveCustomLP = () => {
@@ -416,6 +473,44 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
       {/* TAB 2: CUSTOM SOLVER */}
       {activeTab === 'custom' && (
         <div className="space-y-5 bg-slate-950/80 p-5 rounded-2xl border border-slate-800">
+          <div className="space-y-3 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <div className="text-sm font-black text-emerald-300">Nhập đề bài linh hoạt</div>
+                <p className="mt-1 text-xs leading-relaxed text-slate-300">Có thể gõ, dán văn bản, tải tệp .txt/.md hoặc dán/tải ảnh đề bài.</p>
+              </div>
+              <Clipboard className="h-5 w-5 shrink-0 text-emerald-400" />
+            </div>
+            <textarea
+              value={customStatement}
+              onChange={(event) => setCustomStatement(event.target.value)}
+              onPaste={handleStatementPaste}
+              rows={5}
+              placeholder="Ví dụ: Một thương nhân có 120 triệu đồng, mua tối đa 8 tấn trái cây..."
+              className="w-full resize-y rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-3 text-sm leading-relaxed text-white outline-none transition focus:border-emerald-500"
+            />
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={handleAnalyzeStatement}
+                className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-black text-white transition hover:bg-emerald-500"
+              >
+                <Sparkles className="h-4 w-4" /> Phân tích đề bài
+              </button>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-2 text-xs font-bold text-slate-200 transition hover:border-emerald-500 hover:text-white"
+              >
+                <Upload className="h-4 w-4" /> Tải tệp hoặc ảnh
+              </button>
+              <input ref={fileInputRef} type="file" accept=".txt,.md,text/plain,text/markdown,image/*" capture="environment" onChange={handleStatementFile} className="hidden" />
+              {attachedImage && <Image className="h-4 w-4 text-amber-300" aria-label="Đã đính kèm ảnh" />}
+            </div>
+            {attachedImage && <img src={attachedImage} alt="Ảnh đề bài đã dán" className="max-h-48 rounded-xl border border-slate-700 object-contain" />}
+            {inputStatus && <p className="text-xs font-semibold leading-relaxed text-amber-200">{inputStatus}</p>}
+          </div>
+
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-xs font-bold text-slate-400">Chọn dạng bài toán cần giải:</span>
             <div className="flex gap-2">

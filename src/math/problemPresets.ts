@@ -995,17 +995,17 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
     practicalContext:
       'Bài toán vận dụng hàm số mũ và lôgarit trong chương trình Toán 12 Kết nối tri thức và Cánh diều.',
     variables: [
-      { symbol: 'n', meaning: 'Số năm gửi tiền', unit: 'năm', condition: 'n \ge 0, n \in \mathbb{N}' },
+      { symbol: 'n', meaning: 'Số năm gửi tiền', unit: 'năm', condition: 'n \\ge 0, n \\in \\mathbb{N}' },
     ],
     setupExplanation: [
       'Sau n năm, số tiền nhận được là A(n) = 100(1,06)^n (triệu đồng).',
       'Yêu cầu số tiền vượt 150 triệu đồng nên 100(1,06)^n > 150.',
       'Giải bất phương trình bằng cách lấy lôgarit hai vế: n > ln(1,5) / ln(1,06).',
     ],
-    equationLatexList: ['100(1{,}06)^n > 150', 'n > \frac{\ln 1{,}5}{\ln 1{,}06}'],
+    equationLatexList: ['100(1{,}06)^n > 150', 'n > \\frac{\\ln 1{,}5}{\\ln 1{,}06}'],
     singleEquationData: {
       form: 'linear',
-      standardFormLatex: 'n > \frac{\ln 1{,}5}{\ln 1{,}06}',
+      standardFormLatex: 'n > \\frac{\\ln 1{,}5}{\\ln 1{,}06}',
       a: 1,
       b: 0,
       c: 0,
@@ -1023,7 +1023,7 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
         {
           title: 'Bước 2: Giải bất phương trình',
           content: 'Ta có (1,06)^n > 1,5, suy ra n > ln(1,5)/ln(1,06) \approx 6,96.',
-          mathLatex: 'n>\frac{\ln 1{,}5}{\ln 1{,}06}\approx 6{,}96',
+          mathLatex: 'n>\\frac{\\ln 1{,}5}{\\ln 1{,}06}\\approx 6{,}96',
         },
         {
           title: 'Bước 3: Chọn số nguyên nhỏ nhất',
@@ -1061,7 +1061,7 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
     ],
     equationLatexList: [
       'V(x)=x(30-2x)(20-2x)=4x^3-100x^2+600x',
-      'V\prime(x)=12x^2-200x+600=0',
+      'V\\prime(x)=12x^2-200x+600=0',
     ],
     singleEquationData: {
       form: 'quadratic',
@@ -1082,13 +1082,13 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
         },
         {
           title: 'Bước 2: Tìm điểm tới hạn',
-          content: 'V\prime(x)=12x^2-200x+600=0, suy ra x=(50-10\sqrt{7})/6 hoặc x=(50+10\sqrt{7})/6. Chỉ nghiệm thứ nhất thuộc (0;10).',
-          mathLatex: 'x=\frac{25-5\sqrt7}{3}\approx 3{,}92',
+          content: 'V\\prime(x)=12x^2-200x+600=0, suy ra x=(50-10\\sqrt{7})/6 hoặc x=(50+10\\sqrt{7})/6. Chỉ nghiệm thứ nhất thuộc (0;10).',
+          mathLatex: 'x=\\frac{25-5\\sqrt7}{3}\\approx 3{,}92',
         },
         {
           title: 'Bước 3: Kết luận',
           content: 'So sánh với giới hạn khi x tiến đến 0 hoặc 10, thể tích đạt lớn nhất tại giá trị x vừa tìm được.',
-          mathLatex: 'V_{\max}\approx 1056{,}3\text{ cm}^3',
+          mathLatex: 'V_{\\max}\\approx 1056{,}3\\text{ cm}^3',
         },
       ],
       roots: [
@@ -1118,16 +1118,16 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
     practicalContext:
       'Bài toán vận dụng tích phân xác định để tính diện tích hình phẳng trong chương trình Toán 12 Kết nối tri thức và Cánh diều.',
     variables: [
-      { symbol: 'x', meaning: 'Hoành độ của điểm thuộc miền cần tính diện tích', unit: 'đơn vị', condition: '0 \le x \le 2' },
+      { symbol: 'x', meaning: 'Hoành độ của điểm thuộc miền cần tính diện tích', unit: 'đơn vị', condition: '0 \\le x \\le 2' },
     ],
     setupExplanation: [
       'Trên đoạn [0; 2], ta có x^2 \ge 0 nên đồ thị nằm phía trên trục Ox.',
       'Diện tích hình phẳng được tính bằng tích phân S = ∫₀² x² dx.',
     ],
-    equationLatexList: ['S=\int_0^2 x^2\,dx', 'S=\left.\frac{x^3}{3}\right|_0^2=\frac{8}{3}'],
+    equationLatexList: ['S=\\int_0^2 x^2\\,dx', 'S=\\left.\\frac{x^3}{3}\\right|_0^2=\\frac{8}{3}'],
     singleEquationData: {
       form: 'linear',
-      standardFormLatex: 'S=\frac{8}{3}',
+      standardFormLatex: 'S=\\frac{8}{3}',
       a: 1,
       b: 0,
       c: 0,
@@ -1140,17 +1140,17 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
         {
           title: 'Bước 1: Xác định hàm dưới dấu tích phân',
           content: 'Vì x² không âm trên [0;2], diện tích bằng tích phân của x² trên đoạn này.',
-          mathLatex: 'S=\int_0^2 x^2\,dx',
+          mathLatex: 'S=\\int_0^2 x^2\\,dx',
         },
         {
           title: 'Bước 2: Tìm nguyên hàm',
           content: 'Một nguyên hàm của x² là x³/3.',
-          mathLatex: '\int x^2\,dx=\frac{x^3}{3}',
+          mathLatex: '\\int x^2\\,dx=\\frac{x^3}{3}',
         },
         {
           title: 'Bước 3: Tính giá trị',
           content: 'Thay cận trên và cận dưới vào công thức Newton–Leibniz.',
-          mathLatex: 'S=\frac{2^3}{3}-\frac{0^3}{3}=\frac83',
+          mathLatex: 'S=\\frac{2^3}{3}-\\frac{0^3}{3}=\\frac83',
         },
       ],
     },

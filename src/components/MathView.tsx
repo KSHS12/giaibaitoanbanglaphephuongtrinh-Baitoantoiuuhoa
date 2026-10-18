@@ -7,10 +7,21 @@ interface MathViewProps {
   className?: string;
 }
 
+const normalizeMath = (value: string): string =>
+  value
+    .trim()
+    .replace(/[≤⩽]/g, '\\le ')
+    .replace(/[≥⩾]/g, '\\ge ')
+    .replace(/×/g, '\\times ')
+    .replace(/÷/g, '\\div ')
+    .replace(/−/g, '-')
+    .replace(/√\s*([^\s+]+)/g, '\\sqrt{$1}')
+    .replace(/(^|[^\\])\bln\s*/g, '$1\\ln ')
+    .replace(/(^|[^\\])\blog\s*/g, '$1\\log ');
+
 export const MathView: React.FC<MathViewProps> = ({ math, displayMode = false, className = '' }) => {
   const html = useMemo(() => {
     try {
-      // Strip outer $ or $$ if present
       let cleanMath = math.trim();
       if (cleanMath.startsWith('$$') && cleanMath.endsWith('$$')) {
         cleanMath = cleanMath.slice(2, -2).trim();
@@ -18,13 +29,13 @@ export const MathView: React.FC<MathViewProps> = ({ math, displayMode = false, c
         cleanMath = cleanMath.slice(1, -1).trim();
       }
 
-      return katex.renderToString(cleanMath, {
+      return katex.renderToString(normalizeMath(cleanMath), {
         displayMode,
         throwOnError: false,
         strict: false,
       });
-    } catch (err) {
-      console.error('KaTeX error:', err);
+    } catch (error) {
+      console.error('KaTeX error:', error);
       return `<span class="text-rose-400 font-mono text-xs">${math}</span>`;
     }
   }, [math, displayMode]);
@@ -42,36 +53,31 @@ interface MathTextProps {
   className?: string;
 }
 
-/**
- * Parses mixed text with inline $...$ or $$...$$ math and renders each segment correctly.
- */
 export const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
   const elements = useMemo(() => {
     if (!text) return null;
 
-    // Split on $$...$$ or $...$
-    // Regex: (\$\$[\s\S]*?\$\$|\$[^\$]+?\$|\n)
-    const tokens = text.split(/(\$\$[\s\S]*?\$\$|\$[^\$]+?\$|\n)/g);
+    const tokens = text.split(/(\$\$[\s\S]*?\$\$|\$[^$]+?\$|\\\\\[[\s\S]*?\\\\\]|\n)/g);
 
     return tokens.map((part, index) => {
       if (!part) return null;
-
-      if (part === '\n') {
-        return <br key={`br-${index}`} />;
-      }
+      if (part === '\n') return <br key={`br-${index}`} />;
 
       if (part.startsWith('$$') && part.endsWith('$$')) {
-        const formula = part.slice(2, -2).trim();
         return (
-          <div key={`dmath-${index}`} className="my-2 overflow-x-auto text-center py-1">
-            <MathView math={formula} displayMode />
+          <div key={`dmath-${index}`} className="my-2 overflow-x-auto py-1 text-center">
+            <MathView math={part.slice(2, -2).trim()} displayMode />
           </div>
         );
       }
 
+      if (part.startsWith('\\\\[') && part.endsWith('\\\\]')) {
+        return <MathView key={`dmath-${index}`} math={part.slice(2, -2).trim()} displayMode />;
+      }
+
       if (part.startsWith('$') && part.endsWith('$')) {
-        const formula = part.slice(1, -1).trim();
-        return <MathView key={`imath-${index}`} math={formula} className="mx-0.5" />;
+        const isDisplay = part.startsWith('$$');
+        return <MathView key={`imath-${index}`} math={part.slice(isDisplay ? 2 : 1, isDisplay ? -2 : -1).trim()} />;
       }
 
       return <span key={`txt-${index}`}>{part}</span>;
