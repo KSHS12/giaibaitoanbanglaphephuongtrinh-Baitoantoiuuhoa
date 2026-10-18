@@ -352,6 +352,125 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
     },
   },
 
+  {
+    id: 'bpt-thuong-nhan-trai-cay',
+    title: 'Thương nhân mua trái cây tối ưu lợi nhuận (Vốn & Khối lượng)',
+    category: 'inequality_system',
+    categoryName: 'Hệ bất phương trình & Quy hoạch tuyến tính',
+    grade: 'Toán 10',
+    topic: 'kinh_te_tai_chinh',
+    topicName: 'Kinh tế & Thương mại thực tiễn',
+    statement:
+      'Một thương nhân sử dụng 120 triệu đồng tiền vốn để mua tối đa 8 tấn trái cây. Thương nhân đó thu mua hai loại trái cây: Loại A có giá mua 12 triệu đồng/tấn, lợi nhuận khi bán là 1,1 triệu đồng/tấn. Loại B có giá mua 20 triệu đồng/tấn, lợi nhuận khi bán là 1,5 triệu đồng/tấn. Hỏi thương nhân đó nên mua khối lượng mỗi loại bao nhiêu tấn để thu được lợi nhuận cao nhất?',
+    practicalContext:
+      'Bài toán quy hoạch tuyến tính kinh điển về phân bổ vốn và giới hạn vận chuyển trong thương mại, tối đa hóa lợi nhuận trên hai loại hàng hóa.',
+    variables: [
+      {
+        symbol: 'x',
+        meaning: 'Khối lượng trái cây loại A thương nhân mua',
+        unit: 'tấn',
+        condition: 'x \\ge 0',
+      },
+      {
+        symbol: 'y',
+        meaning: 'Khối lượng trái cây loại B thương nhân mua',
+        unit: 'tấn',
+        condition: 'y \\ge 0',
+      },
+    ],
+    summaryTable: {
+      title: 'Bảng phân tích giá mua, lợi nhuận và giới hạn',
+      headers: ['Đại lượng', '1 tấn Loại A', '1 tấn Loại B', 'Giới hạn khả dụng'],
+      rows: [
+        ['Giá mua (triệu đồng/tấn)', '12', '20', 'Tối đa 120 triệu đồng'],
+        ['Khối lượng (tấn)', '1', '1', 'Tối đa 8 tấn'],
+        ['Lợi nhuận (triệu đồng/tấn)', '1,1', '1,5', 'F(x, y) = 1,1x + 1,5y → Max'],
+      ],
+    },
+    setupExplanation: [
+      'Tổng khối lượng trái cây mua là x + y (tấn). Vì chỉ chở được tối đa 8 tấn nên: x + y \\le 8.',
+      'Tổng số vốn cần dùng là 12x + 20y (triệu đồng). Vì chỉ có 120 triệu đồng nên: 12x + 20y \\le 120 (chia 4: 3x + 5y \\le 30).',
+      'Khối lượng mỗi loại không âm: x \\ge 0 và y \\ge 0.',
+      'Tổng lợi nhuận thu được (triệu đồng) là: F(x, y) = 1{,}1x + 1{,}5y.',
+    ],
+    equationLatexList: [
+      '\\begin{cases} x + y \\le 8 \\\\ 3x + 5y \\le 30 \\\\ x \\ge 0 \\\\ y \\ge 0 \\end{cases}',
+      'F(x, y) = 1{,}1x + 1{,}5y \\longrightarrow \\max',
+    ],
+    linearProgrammingData: {
+      constraints: [
+        {
+          id: 'c1',
+          label: 'd1: x + y = 8',
+          a: 1,
+          b: 1,
+          op: '<=',
+          c: 8,
+          meaning: 'Giới hạn khối lượng vận chuyển',
+        },
+        {
+          id: 'c2',
+          label: 'd2: 3x + 5y = 30',
+          a: 3,
+          b: 5,
+          op: '<=',
+          c: 30,
+          meaning: 'Giới hạn số vốn (12x + 20y ≤ 120)',
+        },
+      ],
+      objective: {
+        name: 'F(x, y)',
+        a: 1.1,
+        b: 1.5,
+        target: 'max',
+        unit: 'triệu đồng',
+        description: 'Tổng lợi nhuận khi bán trái cây',
+      },
+      xRange: [0, 10],
+      yRange: [0, 8],
+    },
+    solutionSteps: {
+      methodTitle: 'Phương pháp hình học giải bài toán Quy hoạch tuyến tính',
+      subSteps: [
+        {
+          title: 'Bước 1: Xác định các đường thẳng biên trên mặt phẳng tọa độ Oxy',
+          content:
+            'Vẽ các đường thẳng biên: (d1): x + y = 8 đi qua (0; 8) và (8; 0); (d2): 3x + 5y = 30 đi qua (0; 6) và (10; 0); cùng hai trục tọa độ x = 0 (Oy) và y = 0 (Ox).',
+          mathLatex: '(d_1): x + y = 8; \\quad (d_2): 3x + 5y = 30',
+        },
+        {
+          title: 'Bước 2: Xác định miền nghiệm (tứ giác OABC)',
+          content:
+            'Gạch bỏ các nửa mặt phẳng không thỏa mãn các bất phương trình. Miền nghiệm của hệ là miền tứ giác lồi OABC (kể cả bờ), với các đỉnh:',
+          mathLatex: 'O(0; 0), \\; A(8; 0), \\; B(5; 3), \\; C(0; 6)',
+        },
+        {
+          title: 'Bước 3: Tính giá trị hàm mục tiêu F(x, y) tại tất cả các đỉnh',
+          content:
+            'Theo định lý quy hoạch tuyến tính, giá trị lớn nhất của hàm mục tiêu F(x, y) trên miền đa giác đạt được tại một trong các đỉnh. Đỉnh B(5; 3) là giao điểm của d1 và d2: giải hệ x + y = 8 và 3x + 5y = 30 suy ra x = 5, y = 3.',
+          mathLatex:
+            'F(O) = 0; \\quad F(A) = 1{,}1 \\cdot 8 = 8{,}8; \\quad F(B) = 1{,}1 \\cdot 5 + 1{,}5 \\cdot 3 = 10; \\quad F(C) = 1{,}5 \\cdot 6 = 9',
+        },
+      ],
+      vertices: [
+        { name: 'O', x: 0, y: 0, xLatex: '0', yLatex: '0', fValue: 0, fValueLatex: '0' },
+        { name: 'A', x: 8, y: 0, xLatex: '8', yLatex: '0', fValue: 8.8, fValueLatex: '8{,}8' },
+        { name: 'B', x: 5, y: 3, xLatex: '5', yLatex: '3', fValue: 10, fValueLatex: '10', isOptimal: true },
+        { name: 'C', x: 0, y: 6, xLatex: '0', yLatex: '6', fValue: 9, fValueLatex: '9' },
+      ],
+    },
+    conclusion: {
+      overview:
+        'Lợi nhuận lớn nhất đạt được là 10 triệu đồng tại đỉnh B(5; 3), tức thương nhân nên mua 5 tấn trái cây loại A và 3 tấn trái cây loại B. Khi đó dùng hết 12·5 + 20·3 = 120 triệu đồng vốn và 5 + 3 = 8 tấn khối lượng, tận dụng tối đa cả hai nguồn lực.',
+      finalAnswers: [
+        { label: 'Khối lượng trái cây loại A', value: '5 tấn' },
+        { label: 'Khối lượng trái cây loại B', value: '3 tấn' },
+        { label: 'Lợi nhuận tối đa đạt được', value: '10 triệu đồng' },
+      ],
+      practicalImplication: 'Phương án B(5; 3) tận dụng hết cả vốn (120 triệu) và tải trọng (8 tấn), cho lợi nhuận cao nhất so với việc chỉ mua một loại.',
+    },
+  },
+
   // ==========================================
   // NHÓM 2: GIẢI BÀI TOÁN BẰNG CÁCH LẬP HỆ PHƯƠNG TRÌNH (TOÁN THPT)
   // ==========================================
