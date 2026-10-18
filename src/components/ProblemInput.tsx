@@ -332,7 +332,7 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
             <span className="text-slate-400 font-bold mr-1">Phân loại:</span>
             {[
               { id: 'all', label: 'Tất cả' },
-              { id: 'inequality_system', label: 'Hệ BPT & Quy hoạch tuyến tính (Toán 10)' },
+              { id: 'inequality_system', label: 'Hệ BPT & Quy hoạch tuyến tính' },
               { id: 'linear_system', label: 'Lập Hệ phương trình' },
               { id: 'single_equation', label: 'Lập Phương trình bậc 2' },
             ].map((cat) => (
@@ -365,10 +365,7 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
                   }`}
                 >
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between text-[11px] gap-2">
-                      <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold">
-                        {preset.grade}
-                      </span>
+                    <div className="flex items-center justify-end text-[11px] gap-2">
                       <span className="text-emerald-400 font-extrabold text-[10px] uppercase tracking-wider">
                         {preset.topicName}
                       </span>

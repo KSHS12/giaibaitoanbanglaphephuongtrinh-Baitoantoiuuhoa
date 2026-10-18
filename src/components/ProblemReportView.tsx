@@ -24,7 +24,7 @@ LỜI GIẢI CHI TIẾT BÀI TOÁN TOÁN THPT - THẦY HỮU
 Chương trình GDPT 2018 - THPT Lê Hồng Phong
 ======================================================
 Bài toán: ${problem.title}
-Thể loại: ${problem.categoryName} (${problem.grade})
+Thể loại: ${problem.categoryName}
 Chủ đề: ${problem.topicName}
 
 ĐỀ BÀI:
@@ -70,10 +70,6 @@ ${problem.conclusion.practicalImplication ? `Ý nghĩa thực tế: ${problem.co
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 print:border-slate-300 pb-5">
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/30 print:border-slate-400 print:bg-slate-100 print:text-slate-800 font-extrabold">
-              {problem.grade}
-            </span>
-            <span className="text-slate-400">·</span>
             <span className="text-emerald-400 font-black uppercase tracking-wider text-[11px]">
               {problem.categoryName}
             </span>

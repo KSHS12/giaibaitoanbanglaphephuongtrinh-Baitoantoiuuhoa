@@ -981,4 +981,182 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
       ],
     },
   },
+
+  {
+    id: 'toan-12-lai-kep',
+    title: 'Tính thời gian tăng trưởng vốn bằng lãi kép',
+    category: 'single_equation',
+    categoryName: 'Bài toán thực tế Toán 12',
+    grade: 'Toán 12',
+    topic: 'kinh_te_tai_chinh',
+    topicName: 'Hàm số mũ và lôgarit',
+    statement:
+      'Một người gửi 100 triệu đồng vào ngân hàng với lãi suất 6% một năm, tiền lãi nhập vào vốn sau mỗi năm. Hỏi sau ít nhất bao nhiêu năm số tiền nhận được vượt 150 triệu đồng?',
+    practicalContext:
+      'Bài toán vận dụng hàm số mũ và lôgarit trong chương trình Toán 12 Kết nối tri thức và Cánh diều.',
+    variables: [
+      { symbol: 'n', meaning: 'Số năm gửi tiền', unit: 'năm', condition: 'n \ge 0, n \in \mathbb{N}' },
+    ],
+    setupExplanation: [
+      'Sau n năm, số tiền nhận được là A(n) = 100(1,06)^n (triệu đồng).',
+      'Yêu cầu số tiền vượt 150 triệu đồng nên 100(1,06)^n > 150.',
+      'Giải bất phương trình bằng cách lấy lôgarit hai vế: n > ln(1,5) / ln(1,06).',
+    ],
+    equationLatexList: ['100(1{,}06)^n > 150', 'n > \frac{\ln 1{,}5}{\ln 1{,}06}'],
+    singleEquationData: {
+      form: 'linear',
+      standardFormLatex: 'n > \frac{\ln 1{,}5}{\ln 1{,}06}',
+      a: 1,
+      b: 0,
+      c: 0,
+      variableName: 'n',
+      unit: 'năm',
+    },
+    solutionSteps: {
+      methodTitle: 'Đưa bài toán về bất phương trình mũ và dùng lôgarit',
+      subSteps: [
+        {
+          title: 'Bước 1: Lập công thức số tiền',
+          content: 'Số tiền sau n năm là A(n) = 100(1,06)^n triệu đồng.',
+          mathLatex: 'A(n)=100(1{,}06)^n',
+        },
+        {
+          title: 'Bước 2: Giải bất phương trình',
+          content: 'Ta có (1,06)^n > 1,5, suy ra n > ln(1,5)/ln(1,06) \approx 6,96.',
+          mathLatex: 'n>\frac{\ln 1{,}5}{\ln 1{,}06}\approx 6{,}96',
+        },
+        {
+          title: 'Bước 3: Chọn số nguyên nhỏ nhất',
+          content: 'Vì n là số nguyên nên n = 7 là giá trị nhỏ nhất thỏa mãn.',
+          mathLatex: 'n=7',
+        },
+      ],
+    },
+    conclusion: {
+      overview: 'Sau ít nhất 7 năm, số tiền trong tài khoản vượt 150 triệu đồng.',
+      finalAnswers: [{ label: 'Thời gian tối thiểu', value: '7 năm' }],
+      practicalImplication: 'Sau 7 năm, số tiền xấp xỉ 150,36 triệu đồng.',
+    },
+  },
+
+  {
+    id: 'toan-12-hop-khong-nap',
+    title: 'Thiết kế hộp không nắp có thể tích lớn nhất',
+    category: 'single_equation',
+    categoryName: 'Bài toán thực tế Toán 12',
+    grade: 'Toán 12',
+    topic: 'hinh_hoc',
+    topicName: 'Ứng dụng đạo hàm tìm cực trị',
+    statement:
+      'Từ một tấm bìa hình chữ nhật dài 30 cm và rộng 20 cm, người ta cắt ở bốn góc bốn hình vuông bằng nhau cạnh x rồi gấp lên thành một hộp không nắp. Tìm x để thể tích hộp lớn nhất.',
+    practicalContext:
+      'Bài toán ứng dụng đạo hàm để tìm giá trị lớn nhất, phù hợp mạch Ứng dụng đạo hàm trong Toán 12 Kết nối tri thức và Cánh diều.',
+    variables: [
+      { symbol: 'x', meaning: 'Cạnh hình vuông bị cắt ở mỗi góc', unit: 'cm', condition: '0 < x < 10' },
+    ],
+    setupExplanation: [
+      'Sau khi cắt, chiều dài đáy hộp là 30 - 2x và chiều rộng đáy là 20 - 2x.',
+      'Chiều cao hộp là x nên thể tích là V(x) = x(30 - 2x)(20 - 2x).',
+      'Khai triển được V(x) = 4x^3 - 100x^2 + 600x và tìm cực trị trên khoảng (0; 10).',
+    ],
+    equationLatexList: [
+      'V(x)=x(30-2x)(20-2x)=4x^3-100x^2+600x',
+      'V\prime(x)=12x^2-200x+600=0',
+    ],
+    singleEquationData: {
+      form: 'quadratic',
+      standardFormLatex: '3x^2-50x+150=0',
+      a: 3,
+      b: -50,
+      c: 150,
+      variableName: 'x',
+      unit: 'cm',
+    },
+    solutionSteps: {
+      methodTitle: 'Dùng đạo hàm tìm cực trị của hàm số thể tích',
+      subSteps: [
+        {
+          title: 'Bước 1: Lập hàm thể tích',
+          content: 'V(x)=x(30-2x)(20-2x), với 0 < x < 10.',
+          mathLatex: 'V(x)=4x^3-100x^2+600x',
+        },
+        {
+          title: 'Bước 2: Tìm điểm tới hạn',
+          content: 'V\prime(x)=12x^2-200x+600=0, suy ra x=(50-10\sqrt{7})/6 hoặc x=(50+10\sqrt{7})/6. Chỉ nghiệm thứ nhất thuộc (0;10).',
+          mathLatex: 'x=\frac{25-5\sqrt7}{3}\approx 3{,}92',
+        },
+        {
+          title: 'Bước 3: Kết luận',
+          content: 'So sánh với giới hạn khi x tiến đến 0 hoặc 10, thể tích đạt lớn nhất tại giá trị x vừa tìm được.',
+          mathLatex: 'V_{\max}\approx 1056{,}3\text{ cm}^3',
+        },
+      ],
+      roots: [
+        { val: (25 - 5 * Math.sqrt(7)) / 3, latex: '\\frac{25-5\\sqrt{7}}{3}', isAccepted: true, reason: 'Thuộc khoảng (0; 10)' },
+        { val: (25 + 5 * Math.sqrt(7)) / 3, latex: '\\frac{25+5\\sqrt{7}}{3}', isAccepted: false, reason: 'Lớn hơn 10, không thỏa mãn điều kiện hình học' },
+      ],
+    },
+    conclusion: {
+      overview: 'Cắt bốn hình vuông cạnh x = (25 - 5√7)/3 cm, xấp xỉ 3,92 cm, thì thể tích hộp lớn nhất.',
+      finalAnswers: [
+        { label: 'Cạnh hình vuông cần cắt', value: 'x ≈ 3,92 cm' },
+        { label: 'Thể tích lớn nhất', value: 'Khoảng 1.056,3 cm³' },
+      ],
+    },
+  },
+
+  {
+    id: 'toan-12-dien-tich-hinh-phang',
+    title: 'Tính diện tích hình phẳng giới hạn bởi đồ thị hàm số',
+    category: 'single_equation',
+    categoryName: 'Bài toán thực tế Toán 12',
+    grade: 'Toán 12',
+    topic: 'hinh_hoc',
+    topicName: 'Nguyên hàm và tích phân',
+    statement:
+      'Tính diện tích hình phẳng giới hạn bởi đồ thị y = x^2, trục Ox và hai đường thẳng x = 0, x = 2.',
+    practicalContext:
+      'Bài toán vận dụng tích phân xác định để tính diện tích hình phẳng trong chương trình Toán 12 Kết nối tri thức và Cánh diều.',
+    variables: [
+      { symbol: 'x', meaning: 'Hoành độ của điểm thuộc miền cần tính diện tích', unit: 'đơn vị', condition: '0 \le x \le 2' },
+    ],
+    setupExplanation: [
+      'Trên đoạn [0; 2], ta có x^2 \ge 0 nên đồ thị nằm phía trên trục Ox.',
+      'Diện tích hình phẳng được tính bằng tích phân S = ∫₀² x² dx.',
+    ],
+    equationLatexList: ['S=\int_0^2 x^2\,dx', 'S=\left.\frac{x^3}{3}\right|_0^2=\frac{8}{3}'],
+    singleEquationData: {
+      form: 'linear',
+      standardFormLatex: 'S=\frac{8}{3}',
+      a: 1,
+      b: 0,
+      c: 0,
+      variableName: 'S',
+      unit: 'đơn vị diện tích',
+    },
+    solutionSteps: {
+      methodTitle: 'Dùng tích phân xác định tính diện tích hình phẳng',
+      subSteps: [
+        {
+          title: 'Bước 1: Xác định hàm dưới dấu tích phân',
+          content: 'Vì x² không âm trên [0;2], diện tích bằng tích phân của x² trên đoạn này.',
+          mathLatex: 'S=\int_0^2 x^2\,dx',
+        },
+        {
+          title: 'Bước 2: Tìm nguyên hàm',
+          content: 'Một nguyên hàm của x² là x³/3.',
+          mathLatex: '\int x^2\,dx=\frac{x^3}{3}',
+        },
+        {
+          title: 'Bước 3: Tính giá trị',
+          content: 'Thay cận trên và cận dưới vào công thức Newton–Leibniz.',
+          mathLatex: 'S=\frac{2^3}{3}-\frac{0^3}{3}=\frac83',
+        },
+      ],
+    },
+    conclusion: {
+      overview: 'Diện tích hình phẳng cần tìm bằng 8/3 đơn vị diện tích.',
+      finalAnswers: [{ label: 'Diện tích hình phẳng', value: '8/3 đơn vị diện tích' }],
+    },
+  },
 ];
