@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@keyframes watermarkMovement {
+  0% {
+    transform: translate(0, 0) rotate(-16deg);
+  }
+  20% {
+    transform: translate(25vw, -18vh) rotate(-13deg);
+  }
+  40% {
+    transform: translate(-22vw, 20vh) rotate(-18deg);
+  }
+  60% {
+    transform: translate(20vw, 22vh) rotate(-14deg);
+  }
+  80% {
+    transform: translate(-25vw, -16vh) rotate(-17deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(-16deg);
+  }
+}
+
+.animate-watermark-move {
+  animation: watermarkMovement 28s ease-in-out infinite;
+  will-change: transform;
+}
