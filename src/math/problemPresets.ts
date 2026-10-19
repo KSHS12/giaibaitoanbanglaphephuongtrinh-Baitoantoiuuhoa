@@ -556,7 +556,7 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
         },
         {
           title: 'Bước 4: Trả lại ẩn ban đầu x và y',
-          content: 'Vì u = 1/x = 1/18 => x = 28 (ngày). Vì v = 1/y = 1/36 => y = 36 (ngày). Cả hai đều thỏa mãn điều kiện x, y > 12.',
+          content: 'Vì u = \\frac{1}{x} = \\frac{1}{18} \\implies x = 18 (ngày). Vì v = \\frac{1}{y} = \\frac{1}{36} \\implies y = 36 (ngày). Cả hai đều thỏa mãn điều kiện x, y > 12.',
           mathLatex: 'x = 18 \\text{ (ngày)}, \\quad y = 36 \\text{ (ngày)}',
         },
       ],
@@ -627,7 +627,7 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
       subSteps: [
         {
           title: 'Bước 1: Trừ phương trình (1) cho phương trình (2)',
-          content: '(x + y) - (x - 2y) = 90 - (-20) <=> 3y = 110 => Không nguyên? Thử lại: 3y = 110 => y = 110/3 ~ 36.67. Hoặc giải chính xác phân số:',
+          content: '(x + y) - (x - 2y) = 90 - (-20) \\iff 3y = 110 \\implies y = \\frac{110}{3} \\approx 36{,}67.',
           mathLatex: '3y = 110 \\iff y = \\frac{110}{3} \\approx 36{,}67 \\text{ (km/h)}',
         },
         {
@@ -739,7 +739,7 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
     topic: 'kinh_te_tai_chinh',
     topicName: 'Tài chính & Đầu tư (Hệ 3 ẩn)',
     statement:
-      'Một nhà đầu tư có số vốn 1,2 tỷ đồng muốn phân bổ vào 3 kênh đầu tư: Trái phiếu chính phủ (lãi suất 6%/năm), Tiết kiệm ngân hàng kỳ hạn (lãi suất 7%/năm) và Quỹ cổ phiếu niêm yết (kỳ vọng lợi nhuận 10%/năm). Để bảo hiểm rủi ro, nhà đầu tư quyết định số tiền mua trái phiếu chính phủ phải gấp đôi số tiền gửi tiết kiệm. Sau một năm, tổng lợi nhuận thu được từ cả 3 kênh là 94 triệu đồng. Hỏi nhà đầu tư đã phân bổ bao nhiêu tiền vào mỗi kênh?',
+      'Một nhà đầu tư có số vốn 1,2 tỷ đồng muốn phân bổ vào 3 kênh đầu tư: Trái phiếu chính phủ (lãi suất 6%/năm), Tiết kiệm ngân hàng kỳ hạn (lãi suất 7%/năm) và Quỹ cổ phiếu niêm yết (kỳ vọng lợi nhuận 10%/năm). Để bảo hiểm rủi ro, nhà đầu tư quyết định số tiền mua trái phiếu chính phủ phải gấp đôi số tiền gửi tiết kiệm. Sau một năm, tổng lợi nhuận thu được từ cả 3 kênh là 98 triệu đồng. Hỏi nhà đầu tư đã phân bổ bao nhiêu tiền vào mỗi kênh?',
     practicalContext:
       'Toán tài chính THPT (Toán 10 Chuyên đề / Toán 11) rèn luyện kỹ năng giải hệ ba phương trình bậc nhất ba ẩn bằng phương pháp Gauss.',
     variables: [
@@ -754,23 +754,23 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
         ['Trái phiếu chính phủ (x)', 'x', '6%', '0,06x'],
         ['Tiết kiệm ngân hàng (y)', 'y', '7%', '0,07y'],
         ['Quỹ cổ phiếu (z)', 'z', '10%', '0,10z'],
-        ['Tổng danh mục', '1.200 triệu (1,2 tỷ)', '—', 'Tổng lãi = 94 triệu đồng'],
+        ['Tổng danh mục', '1.200 triệu (1,2 tỷ)', '—', 'Tổng lãi = 98 triệu đồng'],
       ],
     },
     setupExplanation: [
       'Tổng số vốn đầu tư là 1.200 triệu đồng: x + y + z = 1200.',
       'Số tiền mua trái phiếu gấp đôi số tiền gửi tiết kiệm: x = 2y <=> x - 2y = 0.',
-      'Tổng lợi nhuận cả 3 kênh là 94 triệu đồng: 0,06x + 0,07y + 0,1z = 94 (nhân 100: 6x + 7y + 10z = 9400).',
+      'Tổng lợi nhuận cả 3 kênh là 98 triệu đồng: 0,06x + 0,07y + 0,1z = 98 (nhân 100: 6x + 7y + 10z = 9800).',
     ],
     equationLatexList: [
-      '\\begin{cases} x + y + z = 1200 \\\\ x - 2y = 0 \\\\ 6x + 7y + 10z = 9400 \\end{cases}',
+      '\\begin{cases} x + y + z = 1200 \\\\ x - 2y = 0 \\\\ 6x + 7y + 10z = 9800 \\end{cases}',
     ],
     linearSystemData: {
       varNames: ['x', 'y', 'z'],
       equations: [
         { coeffs: [1, 1, 1], rhs: 1200, label: 'PT 1', meaning: 'Tổng vốn' },
         { coeffs: [1, -2, 0], rhs: 0, label: 'PT 2', meaning: 'Tỉ lệ rủi ro' },
-        { coeffs: [6, 7, 10], rhs: 9400, label: 'PT 3', meaning: 'Tổng lợi nhuận' },
+        { coeffs: [6, 7, 10], rhs: 9800, label: 'PT 3', meaning: 'Tổng lợi nhuận' },
       ],
     },
     solutionSteps: {
@@ -783,18 +783,18 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
         },
         {
           title: 'Bước 2: Thay x = 2y vào PT (1) và (3)',
-          content: 'Từ (1): 2y + y + z = 1200 => 3y + z = 1200 => z = 1200 - 3y. Thay vào (3): 6(2y) + 7y + 10(1200 - 3y) = 9400.',
-          mathLatex: '12y + 7y + 12000 - 30y = 9400 \\iff -11y = -2600 \\text{ (hoặc thử số liệu thực tế)}',
+          content: 'Từ (1): 2y + y + z = 1200 => 3y + z = 1200 => z = 1200 - 3y. Thay vào (3): 6(2y) + 7y + 10(1200 - 3y) = 9800.',
+          mathLatex: '12y + 7y + 12000 - 30y = 9800 \\iff -11y = -2200 \\iff y = 200',
         },
         {
           title: 'Bước 3: Giải ra nghiệm chính xác',
-          content: 'Ta có x = 600 triệu, y = 300 triệu, z = 300 triệu. Kiểm tra lại: 600*6% + 300*7% + 300*10% = 36 + 21 + 30 = 87 triệu. Với tổng 94 triệu: giải chính xác x = 400, y = 200, z = 600 (tổng lãi: 24 + 14 + 60 = 98). Ở đây: y = 200 => x = 400, z = 600.',
+          content: 'Với y = 200 => x = 2y = 400 (triệu đồng), z = 1200 - 3y = 600 (triệu đồng). Kiểm tra lại: 400·6% + 200·7% + 600·10% = 24 + 14 + 60 = 98 (triệu đồng), thỏa mãn.',
           mathLatex: 'x = 400 \\text{ triệu}, \\quad y = 200 \\text{ triệu}, \\quad z = 600 \\text{ triệu}',
         },
       ],
     },
     conclusion: {
-      overview: 'Nhà đầu tư đã phân bổ: 400 triệu đồng mua Trái phiếu chính phủ, 200 triệu gửi Tiết kiệm ngân hàng và 600 triệu đầu tư Quỹ cổ phiếu.',
+      overview: 'Nhà đầu tư đã phân bổ: 400 triệu đồng mua Trái phiếu chính phủ, 200 triệu gửi Tiết kiệm ngân hàng và 600 triệu đầu tư Quỹ cổ phiếu. Tổng lợi nhuận một năm là 98 triệu đồng.',
       finalAnswers: [
         { label: 'Trái phiếu chính phủ', value: '400 triệu đồng' },
         { label: 'Tiết kiệm ngân hàng', value: '200 triệu đồng' },
@@ -953,8 +953,8 @@ export const PROBLEM_PRESETS: ProblemModel[] = [
           mathLatex: 'x^2 - 50x + 616 = 0',
         },
         {
-          title: 'Bước 2: Tính biệt thức Delta phẩy (Delta\')',
-          content: 'b\' = -25 => Delta\' = (-25)^2 - 1 * 616 = 625 - 616 = 9 > 0. Căn bậc hai của Delta\' là 3.',
+          title: 'Bước 2: Tính biệt thức Delta phẩy (\\Delta\')',
+          content: 'b\' = -25 \\implies \\Delta\' = (-25)^2 - 616 = 625 - 616 = 9 > 0. Căn bậc hai của \\Delta\' là 3.',
           mathLatex: '\\Delta\' = (-25)^2 - 616 = 9 \\implies \\sqrt{\\Delta\'} = 3',
         },
         {
