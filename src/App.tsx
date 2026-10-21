@@ -51,7 +51,7 @@ export default function App() {
           </div>
 
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
-            Giải bài toán bằng cách lập phương trình, hệ phương trình, hệ bất phương trình
+            Giải bài toán bằng cách lập hệ bất phương trình & Quy hoạch tuyến tính
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
@@ -80,9 +80,9 @@ export default function App() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-5 bg-slate-900/90 border border-slate-800 rounded-2xl shadow-xl space-y-2">
-              <div className="font-extrabold text-emerald-400 text-base">1. Hệ BPT & Quy hoạch tuyến tính</div>
+              <div className="font-extrabold text-emerald-400 text-base">Hệ BPT & Quy hoạch tuyến tính</div>
               <p className="text-xs text-slate-300 leading-relaxed">
                 Trọng tâm Toán 10 mới: Tối ưu hóa lợi nhuận, chi phí dinh dưỡng, phân bổ ngân sách. Biểu diễn miền nghiệm đa giác trên mặt phẳng Oxy nền trắng, tìm min/max của F(x, y) = ax + by tại các đỉnh.
               </p>
@@ -92,22 +92,12 @@ export default function App() {
             </div>
 
             <div className="p-5 bg-slate-900/90 border border-slate-800 rounded-2xl shadow-xl space-y-2">
-              <div className="font-extrabold text-emerald-400 text-base">2. Lập hệ phương trình</div>
+              <div className="font-extrabold text-emerald-400 text-base">Tự nhập bài toán tùy chỉnh</div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Hệ phương trình bậc nhất 2 ẩn và 3 ẩn: Bài toán năng suất làm chung làm riêng, chuyển động ngược chiều/cùng chiều, nồng độ dung dịch hóa học, cân bằng phản ứng, phân bổ danh mục đầu tư tài chính.
+                Nhập đề bài, thiết lập các bất phương trình ràng buộc và hàm mục tiêu F(x, y). Hệ thống tự động vẽ miền nghiệm, tính tọa độ các đỉnh và tìm giá trị tối ưu. Lưu bài toán để dùng lại sau.
               </p>
               <div className="text-xs font-mono font-bold text-emerald-300 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                1/x + 1/y = 1/12, 4/x + 10/y = 1/2
-              </div>
-            </div>
-
-            <div className="p-5 bg-slate-900/90 border border-slate-800 rounded-2xl shadow-xl space-y-2">
-              <div className="font-extrabold text-emerald-400 text-base">3. Lập phương trình bậc hai</div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Bài toán chuyển động xuôi - ngược dòng sông với vận tốc nước v ± v_n, xe tăng/giảm vận tốc đến sớm, hình học lối đi chu vi diện tích đất đai, tối ưu giá bán kích cầu doanh thu.
-              </p>
-              <div className="text-xs font-mono font-bold text-emerald-300 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                45/(v+3) + 18/(v-3) = 9/4
+                2x + y ≤ 40, 3x + y ≤ 50 → Max F
               </div>
             </div>
           </div>
@@ -135,7 +125,7 @@ export default function App() {
       <footer className="border-t border-slate-800 bg-slate-950 py-6 mt-12 print:hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div>
-            Giải Toán Bằng Cách Lập PT, Hệ PT, Hệ BPT - Thầy Hữu — Trường THPT Lê Hồng Phong — Chương trình GDPT 2018.
+            Giải Toán Bằng Cách Lập Hệ BPT & Quy hoạch tuyến tính - Thầy Hữu — Trường THPT Lê Hồng Phong — Chương trình GDPT 2018.
           </div>
           <div className="flex items-center gap-4">
             <button

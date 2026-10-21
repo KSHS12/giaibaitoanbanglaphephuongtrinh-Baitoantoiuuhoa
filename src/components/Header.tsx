@@ -15,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({ onNewProblem, onOpenTheoryModal,
           href="/"
           className="text-base sm:text-lg font-black tracking-tight text-white whitespace-nowrap shrink-0 hover:text-emerald-400 transition-colors"
         >
-          <span className="text-emerald-400 font-black">Toán THPT</span> — Lập PT, Hệ PT, Hệ BPT - Thầy Hữu
+          <span className="text-emerald-400 font-black">Toán THPT</span> — Hệ BPT-QHTT - Thầy Hữu
         </a>
 
         {/* Zone 2: 4-5 nav links */}

@@ -1,11 +1,8 @@
-export type ProblemCategory = 'inequality_system' | 'linear_system' | 'single_equation';
+export type ProblemCategory = 'inequality_system';
 
 export type ProblemTopic =
   | 'quy_hoach_tuyen_tinh'
-  | 'chuyen_dong'
-  | 'nang_suat'
   | 'kinh_te_tai_chinh'
-  | 'hinh_hoc'
   | 'hoa_hoc_dinh_duong';
 
 export interface VariableDef {
@@ -76,26 +73,6 @@ export interface ProblemModel {
     yRange?: [number, number];
   };
 
-  linearSystemData?: {
-    varNames: string[];
-    equations: {
-      coeffs: number[];
-      rhs: number;
-      label: string;
-      meaning: string;
-    }[];
-  };
-
-  singleEquationData?: {
-    form: 'quadratic' | 'fractional' | 'linear';
-    standardFormLatex: string;
-    a: number;
-    b: number;
-    c: number;
-    variableName: string;
-    unit: string;
-  };
-
   // Step 2: Solution & Working steps
   solutionSteps: {
     methodTitle: string;
@@ -105,12 +82,6 @@ export interface ProblemModel {
       mathLatex?: string;
     }[];
     vertices?: VertexPoint[];
-    roots?: {
-      val: number;
-      latex: string;
-      isAccepted: boolean;
-      reason: string;
-    }[];
   };
 
   // Step 3: Conclusion
