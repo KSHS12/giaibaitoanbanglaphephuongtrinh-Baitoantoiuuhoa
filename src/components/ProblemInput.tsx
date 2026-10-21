@@ -280,22 +280,6 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
         </div>
       </div>
 
-      {/* SAVE BUTTON + STATUS */}
-      {currentProblem.id.startsWith('custom-') && (
-        <div className="flex flex-wrap items-center gap-3 bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-4 py-2.5">
-          <button
-            onClick={handleSaveCurrent}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-black text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition cursor-pointer"
-          >
-            <Save className="w-4 h-4" />
-            <span>Lưu bài toán vào kho</span>
-          </button>
-          <Bookmark className="w-4 h-4 text-emerald-400" />
-          <span className="text-xs text-emerald-200">Bài giải này do bạn tự nhập. Lưu lại để dùng lại sau.</span>
-          {saveStatus && <span className="text-xs font-bold text-amber-200 ml-auto">{saveStatus}</span>}
-        </div>
-      )}
-
       {/* TAB 1: PRESETS */}
       {activeTab === 'presets' && (
         <div className="space-y-4">
@@ -551,6 +535,21 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
                 <Sparkles className="w-4 h-4" />
                 <span>Giải & Biểu diễn miền nghiệm trên Oxy</span>
               </button>
+
+              {currentProblem.id.startsWith('custom-lp-') && (
+                <div className="flex flex-wrap items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-950/40 px-4 py-3">
+                  <button
+                    onClick={handleSaveCurrent}
+                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-black text-white transition hover:bg-emerald-500 cursor-pointer"
+                  >
+                    <Save className="h-4 w-4" />
+                    <span>Lưu vào kho bài toán</span>
+                  </button>
+                  <Bookmark className="h-4 w-4 text-emerald-400" />
+                  <span className="text-xs text-emerald-200">Lưu bài đã giải để cập nhật kho bài toán.</span>
+                  {saveStatus && <span className="ml-auto text-xs font-bold text-amber-200">{saveStatus}</span>}
+                </div>
+              )}
             </div>
           )}
         </div>
