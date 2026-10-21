@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient';
+import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { ProblemModel } from '../types/problemTypes';
 
 interface StoredProblemRow {
@@ -10,6 +10,8 @@ interface StoredProblemRow {
 }
 
 export async function loadCustomProblems(): Promise<ProblemModel[]> {
+  if (!supabase) return [];
+
   const { data, error } = await supabase
     .from('custom_problems')
     .select('problem_data')
@@ -25,6 +27,8 @@ export async function loadCustomProblems(): Promise<ProblemModel[]> {
 }
 
 export async function saveCustomProblem(problem: ProblemModel): Promise<{ success: boolean; error?: string }> {
+  if (!supabase) return { success: false, error: 'Kết nối cơ sở dữ liệu chưa sẵn sàng.' };
+
   const { error } = await supabase.from('custom_problems').upsert({
     id: problem.id,
     problem_data: problem,
@@ -39,6 +43,8 @@ export async function saveCustomProblem(problem: ProblemModel): Promise<{ succes
 }
 
 export async function deleteCustomProblem(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!supabase) return { success: false, error: 'Kết nối cơ sở dữ liệu chưa sẵn sàng.' };
+
   const { error } = await supabase.from('custom_problems').delete().eq('id', id);
   if (error) {
     return { success: false, error: error.message };
@@ -47,3 +53,4 @@ export async function deleteCustomProblem(id: string): Promise<{ success: boolea
 }
 
 export type { StoredProblemRow };
+export { isSupabaseConfigured };
