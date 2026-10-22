@@ -6,6 +6,7 @@ interface StoredProblemRow {
   problem_data: ProblemModel;
   title: string;
   category: string;
+  published: boolean;
   created_at: string;
 }
 
@@ -88,13 +89,40 @@ export async function saveCustomProblem(problem: ProblemModel): Promise<{ succes
     });
 
     if (error) {
-      console.warn('Failed to sync to Supabase (saved locally):', error.message);
-      return { success: true };
+      return { success: false, error: error.message };
     }
     return { success: true };
   } catch (err: unknown) {
-    console.warn('Supabase save error (saved locally):', err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return { success: false, error: msg };
+  }
+}
+
+export async function publishCustomProblem(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, error: 'Kết nối cơ sở dữ liệu chưa sẵn sàng.' };
+  }
+  try {
+    const { error } = await supabase.from('custom_problems').update({ published: true }).eq('id', id);
+    if (error) return { success: false, error: error.message };
     return { success: true };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return { success: false, error: msg };
+  }
+}
+
+export async function unpublishCustomProblem(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, error: 'Kết nối cơ sở dữ liệu chưa sẵn sàng.' };
+  }
+  try {
+    const { error } = await supabase.from('custom_problems').update({ published: false }).eq('id', id);
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return { success: false, error: msg };
   }
 }
 
@@ -108,14 +136,11 @@ export async function deleteCustomProblem(id: string): Promise<{ success: boolea
 
   try {
     const { error } = await supabase.from('custom_problems').delete().eq('id', id);
-    if (error) {
-      console.warn('Failed to delete from Supabase (deleted locally):', error.message);
-      return { success: true };
-    }
+    if (error) return { success: false, error: error.message };
     return { success: true };
   } catch (err: unknown) {
-    console.warn('Supabase delete error (deleted locally):', err);
-    return { success: true };
+    const msg = err instanceof Error ? err.message : String(err);
+    return { success: false, error: msg };
   }
 }
 

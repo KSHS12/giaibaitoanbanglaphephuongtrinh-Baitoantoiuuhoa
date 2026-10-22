@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ProblemModel, ProblemCategory, LinearConstraint, ObjectiveFunction } from '../types/problemTypes';
 import { PROBLEM_PRESETS } from '../math/problemPresets';
-import { BookOpen, Sliders, CheckCircle2, Sparkles, Plus, Trash2, ArrowRight, Upload, Clipboard, Image, Save, Bookmark, X } from 'lucide-react';
+import { BookOpen, Sliders, CheckCircle2, Sparkles, Plus, Trash2, ArrowRight, Upload, Clipboard, Image, Save, Bookmark, X, Send } from 'lucide-react';
 import { computeFeasiblePolygon } from '../math/solvers';
-import { loadCustomProblems, saveCustomProblem, deleteCustomProblem } from '../lib/customProblemsStore';
+import { loadCustomProblems, saveCustomProblem, deleteCustomProblem, publishCustomProblem } from '../lib/customProblemsStore';
 
 interface ProblemInputProps {
   currentProblem: ProblemModel;
   onSelectProblem: (problem: ProblemModel) => void;
+  isTeacher: boolean;
 }
 
-export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSelectProblem }) => {
+export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSelectProblem, isTeacher }) => {
   const [activeTab, setActiveTab] = useState<'presets' | 'custom'>('presets');
   const [customProblems, setCustomProblems] = useState<ProblemModel[]>([]);
   const [saveStatus, setSaveStatus] = useState('');
@@ -65,6 +66,10 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
       setSaveStatus('Chỉ lưu được bài toán do bạn tự nhập và giải.');
       return;
     }
+    if (!isTeacher) {
+      setSaveStatus('Chỉ giáo viên đã đăng nhập mới được lưu và xuất bản câu hỏi.');
+      return;
+    }
     const result = await saveCustomProblem(problem);
     if (result.success) {
       setSaveStatus('Đã lưu bài toán vào kho!');
@@ -72,6 +77,22 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
       setCustomProblems(refreshed);
     } else {
       setSaveStatus('Lỗi lưu: ' + result.error);
+    }
+  };
+
+  const handlePublishCurrent = async () => {
+    const problem = currentProblem;
+    if (!problem.id.startsWith('custom-')) return;
+    const saved = await saveCustomProblem(problem);
+    if (!saved.success) {
+      setSaveStatus('Lỗi lưu trước khi xuất bản: ' + saved.error);
+      return;
+    }
+    const result = await publishCustomProblem(problem.id);
+    if (result.success) {
+      setSaveStatus('Đã xuất bản câu hỏi — học sinh sẽ thấy câu hỏi này khi tải lại trang.');
+    } else {
+      setSaveStatus('Lỗi xuất bản: ' + result.error);
     }
   };
 
@@ -540,13 +561,24 @@ export const ProblemInput: React.FC<ProblemInputProps> = ({ currentProblem, onSe
                 <div className="flex flex-wrap items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-950/40 px-4 py-3">
                   <button
                     onClick={handleSaveCurrent}
-                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-black text-white transition hover:bg-emerald-500 cursor-pointer"
+                    disabled={!isTeacher}
+                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-black text-white transition hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     <Save className="h-4 w-4" />
-                    <span>Lưu vào kho bài toán</span>
+                    <span>Lưu vào kho</span>
+                  </button>
+                  <button
+                    onClick={handlePublishCurrent}
+                    disabled={!isTeacher}
+                    className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-3.5 py-2 text-xs font-black text-white transition hover:bg-sky-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    <Send className="h-4 w-4" />
+                    <span>Xuất bản cho học sinh</span>
                   </button>
                   <Bookmark className="h-4 w-4 text-emerald-400" />
-                  <span className="text-xs text-emerald-200">Lưu bài đã giải để cập nhật kho bài toán.</span>
+                  <span className="text-xs text-emerald-200">
+                    {isTeacher ? 'Lưu và xuất bản câu hỏi để học sinh xem được.' : 'Cần đăng nhập giáo viên để lưu/xuất bản.'}
+                  </span>
                   {saveStatus && <span className="ml-auto text-xs font-bold text-amber-200">{saveStatus}</span>}
                 </div>
               )}

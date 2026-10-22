@@ -3,17 +3,21 @@ import { Header } from './components/Header';
 import { ProblemInput } from './components/ProblemInput';
 import { ProblemReportView } from './components/ProblemReportView';
 import { TheoryModal } from './components/TheoryModal';
+import { AuthPanel } from './components/AuthPanel';
 import { Watermark } from './components/Watermark';
 import { PROBLEM_PRESETS } from './math/problemPresets';
 import { ProblemModel } from './types/problemTypes';
+import { useAuth } from './lib/useAuth';
 
 export default function App() {
   const [currentProblem, setCurrentProblem] = useState<ProblemModel>(PROBLEM_PRESETS[0]);
   const [isTheoryOpen, setIsTheoryOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+  const auth = useAuth();
 
   const handleSelectProblem = (problem: ProblemModel) => {
     setCurrentProblem(problem);
-    // Smooth scroll down to solution report
     setTimeout(() => {
       const el = document.getElementById('loi-giai-chi-tiet');
       if (el) {
@@ -28,19 +32,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans selection:bg-emerald-600 selection:text-white relative">
-      {/* Floating Centered Watermark that travels across the page */}
       <Watermark />
 
-      {/* 3-Zone Header Contract */}
       <Header
         onNewProblem={handleNewProblem}
         onOpenTheoryModal={() => setIsTheoryOpen(true)}
         onOpenGuideModal={() => setIsTheoryOpen(true)}
+        isTeacher={auth.isTeacher}
+        userEmail={auth.user?.email ?? null}
+        onOpenAuth={() => setIsAuthOpen(true)}
+        onSignOut={auth.signOut}
       />
 
-      {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 md:py-8 space-y-7">
-        {/* Title & Introduction */}
         <div className="space-y-2.5 text-center sm:text-left print:hidden">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs font-bold text-slate-400">
             <span className="text-emerald-400 font-black">Chương trình GDPT 2018</span>
@@ -59,17 +63,18 @@ export default function App() {
           </p>
         </div>
 
-        {/* Problem Selector & Custom Problem Builder */}
         <section id="kho-bai-toan" className="print:hidden">
-          <ProblemInput currentProblem={currentProblem} onSelectProblem={handleSelectProblem} />
+          <ProblemInput
+            currentProblem={currentProblem}
+            onSelectProblem={handleSelectProblem}
+            isTeacher={auth.isTeacher}
+          />
         </section>
 
-        {/* Detailed Solution Report */}
         <section id="loi-giai-chi-tiet">
           <ProblemReportView problem={currentProblem} />
         </section>
 
-        {/* Educational Reference Cards (3 nhóm bài toán) */}
         <section id="cac-dang-toan" className="pt-6 border-t border-slate-800 space-y-4 print:hidden">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-black text-white">
@@ -103,7 +108,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Pedagogical Guidelines */}
         <section className="p-5 bg-slate-900/70 border border-slate-800 rounded-2xl text-xs text-slate-300 space-y-2.5 print:hidden">
           <div className="font-extrabold text-emerald-400 text-sm">Lưu ý sư phạm & phương pháp giải:</div>
           <p>
@@ -121,7 +125,6 @@ export default function App() {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-slate-800 bg-slate-950 py-6 mt-12 print:hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div>
@@ -145,8 +148,17 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Theory Reference Modal */}
       <TheoryModal isOpen={isTheoryOpen} onClose={() => setIsTheoryOpen(false)} />
+
+      <AuthPanel
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        isTeacher={auth.isTeacher}
+        userEmail={auth.user?.email ?? null}
+        onSignIn={auth.signIn}
+        onSignUp={auth.signUp}
+        onSignOut={auth.signOut}
+      />
     </div>
   );
 }
