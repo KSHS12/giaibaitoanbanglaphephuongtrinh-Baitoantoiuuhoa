@@ -158,7 +158,7 @@ export const ProblemReportView: React.FC<ProblemReportViewProps> = ({ problem })
 
     const summaryTableHtml = problem.summaryTable
       ? `
-        <h3 style="font-size:13pt;color:#047857;margin-top:14pt;">${escapeHtml(problem.summaryTable.title)}</h3>
+        <h3 style="font-size:13pt;color:#047857;margin-top:14pt;">${escapeHtml(problem.summaryTable.title || '')}</h3>
         <table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;font-size:11pt;width:100%;margin-top:6pt;">
           <thead>
             <tr style="background:#d1fae5;font-weight:bold;">
@@ -168,7 +168,7 @@ export const ProblemReportView: React.FC<ProblemReportViewProps> = ({ problem })
           <tbody>
             ${problem.summaryTable.rows
               .map(
-                (row) => `<tr>${row.map((cell) => `<td style="border:1px solid #ccc;">${escapeHtml(cell)}</td>`).join('')}</tr>`
+                (row) => `<tr>${row.map((cell) => `<td style="border:1px solid #ccc;">${escapeHtml(String(cell))}</td>`).join('')}</tr>`
               )
               .join('')}
           </tbody>

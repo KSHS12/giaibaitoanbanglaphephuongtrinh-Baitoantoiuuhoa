@@ -48,6 +48,12 @@ export interface SummaryTableData {
   rows: (string | number)[][];
 }
 
+export interface ProblemRoot {
+  latex: string;
+  isAccepted: boolean;
+  reason: string;
+}
+
 export interface ProblemModel {
   id: string;
   title: string;
@@ -82,6 +88,7 @@ export interface ProblemModel {
       mathLatex?: string;
     }[];
     vertices?: VertexPoint[];
+    roots?: ProblemRoot[];
   };
 
   // Step 3: Conclusion
